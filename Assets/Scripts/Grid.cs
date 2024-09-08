@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Collections.Generic;
 
 public class Grid : MonoBehaviour
 {
@@ -13,13 +14,18 @@ public class Grid : MonoBehaviour
     float nodeDiameter;
     int gridSizeX, gridSizeY;
 
+
+    //
+    private int nodeCountX;
+    private int nodeCountY;
     void Start()
     {
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
         CreateGrid();
-        
+        nodeCountX = (int)(gridWorldSize.x / (nodeRadius * 2));
+        nodeCountY = (int)(gridWorldSize.y / (nodeRadius * 2));
     }
 
     void CreateGrid()
@@ -38,10 +44,38 @@ public class Grid : MonoBehaviour
         }
     }
 
-    public void SetGrid(int x, int y, bool _reached)
+    public void SetGrid(int x, int y, bool _reached, Color? _color = null)
     {
         grid[x, y].reached = _reached;
+        grid[x, y].color = _color ?? Color.white;
     }
+
+    public Node GetNode(int x, int y)
+    {
+        return grid[x, y];
+    }
+    public List<Node> GetAdjecentNode(int x, int y, List<Node> nodeList)
+    {
+        Node n = grid[Mathf.Clamp(x - 1, 0, nodeCountX - 1), Mathf.Clamp(y - 1, 0, nodeCountY - 1)];
+
+        for(int i = -1; i<2; i++)
+        {
+            for (int j = -1; j < 2; j++)
+            {
+                if((x+j) > 0 && (x+j) <(nodeCountX-1) && (y+i) >0 && (y+i) <(nodeCountY -1))
+                {
+                    nodeList.Add(grid[x+j,y+i]);
+                }
+            }
+        }
+        return nodeList;
+    }
+
+    public int Size()
+    {
+        return 0;
+    }
+
 
     public Node NodeFromWorldPoint(Vector3 worldPosition)
     {
@@ -64,16 +98,8 @@ public class Grid : MonoBehaviour
         {
             foreach (Node n in grid)
             {
-                if(n.reached)
-                {
-                    Gizmos.color = (n.walkable) ? Color.blue : Color.red;
-                    Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
-                }
-                else
-                {
-                    Gizmos.color = (n.walkable) ? Color.white : Color.red;
-                    Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
-                }
+                Gizmos.color = (n.walkable) ? n.color : Color.red;
+                Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
             }
         }
     }
@@ -84,12 +110,14 @@ public struct Node
     public bool walkable;
     public bool reached;
     public Vector3 worldPosition;
+    public Color color;
 
-    public Node(bool _walkable, Vector3 _worldPos, bool _reached = false)
+    public Node(bool _walkable, Vector3 _worldPos, bool _reached = false, Color? _color = null)
     {
         walkable = _walkable;
         worldPosition = _worldPos;
         reached = _reached;
+        color = _color ?? Color.white;
     }
 }
 
