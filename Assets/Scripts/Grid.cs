@@ -18,6 +18,10 @@ public class Grid : MonoBehaviour
     //
     private int nodeCountX;
     private int nodeCountY;
+    public (int, int) GetNodeCount()
+    {
+        return (nodeCountX, nodeCountY);
+    }
     void Start()
     {
         nodeDiameter = nodeRadius * 2;
@@ -54,22 +58,6 @@ public class Grid : MonoBehaviour
     {
         return grid[x, y];
     }
-    public List<Node> GetAdjecentNode(int x, int y, List<Node> nodeList)
-    {
-        Node n = grid[Mathf.Clamp(x - 1, 0, nodeCountX - 1), Mathf.Clamp(y - 1, 0, nodeCountY - 1)];
-
-        for(int i = -1; i<2; i++)
-        {
-            for (int j = -1; j < 2; j++)
-            {
-                if((x+j) > 0 && (x+j) <(nodeCountX-1) && (y+i) >0 && (y+i) <(nodeCountY -1))
-                {
-                    nodeList.Add(grid[x+j,y+i]);
-                }
-            }
-        }
-        return nodeList;
-    }
 
     public int Size()
     {
@@ -105,13 +93,17 @@ public class Grid : MonoBehaviour
     }
 }
 
-public struct Node
+public class Node
 {
     public bool walkable;
     public bool reached;
     public Vector3 worldPosition;
     public Color color;
-
+    private float hueristicCost;
+    public void SetHueristicCost(float _hueristicCost)
+    {
+        hueristicCost = _hueristicCost;
+    }
     public Node(bool _walkable, Vector3 _worldPos, bool _reached = false, Color? _color = null)
     {
         walkable = _walkable;
