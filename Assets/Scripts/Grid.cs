@@ -99,11 +99,6 @@ public class Node
     public bool reached;
     public Vector3 worldPosition;
     public Color color;
-    private float hueristicCost;
-    public void SetHueristicCost(float _hueristicCost)
-    {
-        hueristicCost = _hueristicCost;
-    }
     public Node(bool _walkable, Vector3 _worldPos, bool _reached = false, Color? _color = null)
     {
         walkable = _walkable;
