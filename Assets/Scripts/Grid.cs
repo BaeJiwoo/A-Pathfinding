@@ -50,7 +50,7 @@ public class Grid : MonoBehaviour
 
     public void SetGrid(int x, int y, bool _reached, Color? _color = null)
     {
-        grid[x, y].reached = _reached;
+        grid[x, y].visited = _reached;
         grid[x, y].color = _color ?? Color.white;
     }
 
@@ -93,20 +93,20 @@ public class Grid : MonoBehaviour
     }
 }
 
-public class Node
-{
-    public bool walkable;
-    public bool reached;
-    public Vector3 worldPosition;
-    public Color color;
-    public Node(bool _walkable, Vector3 _worldPos, bool _reached = false, Color? _color = null)
-    {
-        walkable = _walkable;
-        worldPosition = _worldPos;
-        reached = _reached;
-        color = _color ?? Color.white;
-    }
-}
+//public class Node
+//{
+//    public bool walkable;
+//    public bool visited;
+//    public Vector3 worldPosition;
+//    public Color color;
+//    public Node(bool _walkable, Vector3 _worldPos, bool _reached = false, Color? _color = null)
+//    {
+//        walkable = _walkable;
+//        worldPosition = _worldPos;
+//        visited = _reached;
+//        color = _color ?? Color.white;
+//    }
+//}
 
 //public class Node
 //{

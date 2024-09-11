@@ -52,14 +52,14 @@ public class AstarPathFinding : MonoBehaviour
             //대각선 후보에서 제외
             for (int i = -1; i < 2; i++)
             {
-                if ((x + i < gridSize.Item1 && x + i >= 0) && grid.GetNode(x + i, y).reached == false && grid.GetNode(x + i, y).walkable == true)
+                if ((x + i < gridSize.Item1 && x + i >= 0) && grid.GetNode(x + i, y).visited == false && grid.GetNode(x + i, y).walkable == true)
                 {
                     adjecentNodeList.Add((x + i, y));
                 }
             }
             for (int j = -1; j < 2; j++)
             {
-                if ((y + j < gridSize.Item1 && y + j >= 0) && grid.GetNode(x, y + j).reached == false && grid.GetNode(x, y + j).walkable == true)
+                if ((y + j < gridSize.Item1 && y + j >= 0) && grid.GetNode(x, y + j).visited == false && grid.GetNode(x, y + j).walkable == true)
                 {
                     adjecentNodeList.Add((x, y + j));
                 }
@@ -70,9 +70,9 @@ public class AstarPathFinding : MonoBehaviour
             //{
             //    for (int j = -1; j < 2; j++)
             //    {
-            //        if ((x + i < gridSize.Item1 && x + i >= 0) && (y + j < gridSize.Item2 && y + j >= 0) && grid.GetNode(x + i, y + j).reached == false && grid.GetNode(x+i, y + j).walkable == true)
+            //        if ((Node + i < gridSize.Item1 && Node + i >= 0) && (y + j < gridSize.Item2 && y + j >= 0) && grid.GetNode(Node + i, y + j).visited == false && grid.GetNode(Node+i, y + j).walkable == true)
             //        {
-            //            adjecentNodeList.Add((x+i, y + j));
+            //            adjecentNodeList.Add((Node+i, y + j));
             //        }
             //    }
             //}
